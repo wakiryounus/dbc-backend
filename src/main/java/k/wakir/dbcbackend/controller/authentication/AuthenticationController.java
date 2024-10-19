@@ -26,7 +26,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ServerMessage> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<ServerMessage> register(@Valid @RequestBody RegisterRequest registerRequest) {
         User user = new User(null, registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getEmail());
         this.userService.saveUser(user);
         return new ResponseEntity<>(new ServerMessage("User Registered Successfully"), HttpStatus.CREATED);
