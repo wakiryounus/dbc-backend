@@ -1,8 +1,8 @@
-package k.wakir.dbcbackend.security;
+package k.wakir.dbcbackend.security.config;
 
-import k.wakir.dbcbackend.filter.JwtAuthenticationFilter;
+import k.wakir.dbcbackend.security.jwt.JwtAuthenticationFilter;
 import k.wakir.dbcbackend.service.DbcUserDetailService;
-import k.wakir.dbcbackend.service.JwtService;
+import k.wakir.dbcbackend.security.jwt.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

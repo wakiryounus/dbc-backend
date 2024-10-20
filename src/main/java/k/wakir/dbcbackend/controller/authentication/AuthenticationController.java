@@ -1,5 +1,7 @@
 package k.wakir.dbcbackend.controller.authentication;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import k.wakir.dbcbackend.controller.authentication.dto.LoginRequest;
 import k.wakir.dbcbackend.controller.authentication.dto.RegisterRequest;
@@ -21,8 +23,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
-        return new ResponseEntity<>(userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword()), HttpStatus.OK);
+    public ResponseEntity<ServerMessage> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+        String jwtToken = userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword());
+        Cookie cookie = new Cookie("authToken", jwtToken);
+        cookie.setHttpOnly(true);
+//        cookie.setSecure(true);
+//        Setting this to false means the cookie can be sent over both HTTP and HTTPS.
+//        If it were set to true, the cookie would only be sent over secure HTTPS connections
+        response.addCookie(cookie);
+        return new ResponseEntity<>(new ServerMessage("Login Successfully"),HttpStatus.OK);
     }
 
     @PostMapping("/register")

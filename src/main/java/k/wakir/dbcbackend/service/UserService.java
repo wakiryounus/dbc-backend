@@ -2,6 +2,7 @@ package k.wakir.dbcbackend.service;
 
 import k.wakir.dbcbackend.model.entity.User;
 import k.wakir.dbcbackend.repository.UserRepository;
+import k.wakir.dbcbackend.security.jwt.JwtService;
 import k.wakir.dbcbackend.utils.PasswordUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

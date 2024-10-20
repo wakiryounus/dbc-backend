@@ -1,11 +1,10 @@
-package k.wakir.dbcbackend.filter;
+package k.wakir.dbcbackend.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import k.wakir.dbcbackend.service.DbcUserDetailService;
-import k.wakir.dbcbackend.service.JwtService;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
