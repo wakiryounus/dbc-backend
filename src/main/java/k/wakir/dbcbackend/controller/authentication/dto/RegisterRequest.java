@@ -1,5 +1,6 @@
 package k.wakir.dbcbackend.controller.authentication.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,5 +17,6 @@ public class RegisterRequest {
     @NotBlank(message = "Password cannot be empty")
     private String password;
     @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Please provide a valid email address")
     String email;
 }

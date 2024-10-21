@@ -24,6 +24,8 @@ public class UserService {
     }
 
     public void saveUser(User user) {
+        if (this.userRepository.findByUsername(user.getUsername()).isPresent())
+            throw new RuntimeException("Username already taken");
         user.setPassword(PasswordUtil.encryptPassword(user.getPassword()));
         this.userRepository.save(user);
     }
