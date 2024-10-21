@@ -15,6 +15,6 @@ public class ValidationExceptionHandler {
     public ResponseEntity<ServerMessage> handleValidationExceptions(MethodArgumentNotValidException ex) {
         String errorMessage = Objects.requireNonNull(ex.getBindingResult()
                         .getFieldError()).getDefaultMessage();
-        return new ResponseEntity<>(new ServerMessage(errorMessage), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ServerMessage(errorMessage, null), HttpStatus.BAD_REQUEST);
     }
 }

@@ -11,4 +11,5 @@ import lombok.Setter;
 @Setter
 public class ServerMessage {
     private String message;
+    private Object data;
 }

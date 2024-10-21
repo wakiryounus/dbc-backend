@@ -48,4 +48,10 @@ public class UserService {
             throw new RuntimeException("Invalid username or password");
         }
     }
+
+    public User loadUserFromToken(String token) {
+        return this.userRepository.findByUsername(this.jwtService.extractUsername(token))
+                .orElseThrow(() ->  new RuntimeException("No user found"));
+    }
+
 }
