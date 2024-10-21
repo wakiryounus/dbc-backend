@@ -27,6 +27,7 @@ public class AuthenticationController {
         String jwtToken = userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword());
         Cookie cookie = new Cookie("authToken", jwtToken);
         cookie.setHttpOnly(true);
+        cookie.setPath("/");
 //        cookie.setSecure(true);
 //        Setting this to false means the cookie can be sent over both HTTP and HTTPS.
 //        If it were set to true, the cookie would only be sent over secure HTTPS connections
