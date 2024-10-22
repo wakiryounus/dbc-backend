@@ -43,9 +43,21 @@ public class AuthenticationController {
         return new ResponseEntity<>(new ServerMessage("User Registered Successfully", null), HttpStatus.CREATED);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<ServerMessage> logout(HttpServletResponse response) {
+        this.userService.logoutUser(response);
+        return new ResponseEntity<>(new ServerMessage("Logout Successfully", null), HttpStatus.CREATED);
+    }
+
     @GetMapping("/currentUser")
-    public ResponseEntity<ServerMessage> currentUser(@CookieValue(value = "authToken") String token) {
-        return new ResponseEntity<>(new ServerMessage("Loaded successfully",
-                this.userService.loadUserFromToken(token)), HttpStatus.OK);
+    public ResponseEntity<ServerMessage> currentUser(@CookieValue(value = "authToken") String token, HttpServletResponse response ) {
+        User user = this.userService.loadUserFromToken(token);
+        if (user == null){
+            this.userService.logoutUser(response);
+            return new ResponseEntity<>(new ServerMessage("Token expired", null), HttpStatus.BAD_REQUEST);
+        }
+        else
+            return new ResponseEntity<>(new ServerMessage("Loaded successfully",
+                    this.userService.loadUserFromToken(token)), HttpStatus.OK);
     }
 }

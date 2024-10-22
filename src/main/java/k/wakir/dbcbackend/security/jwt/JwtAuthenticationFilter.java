@@ -2,6 +2,7 @@ package k.wakir.dbcbackend.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import k.wakir.dbcbackend.service.DbcUserDetailService;
@@ -27,7 +28,7 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        String token = getJwtFromRequest(request);
+        String token = getJwtFromCookies(request);
 
         if (token != null && jwtService.validateToken(token)) {
             String username = jwtService.extractUsername(token);
@@ -45,5 +46,20 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
             return header.substring(7);
         }
         return null;
+    }
+
+    /**
+     * Method to extract JWT token from cookies.
+     */
+    private String getJwtFromCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();  // Get all cookies
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("jwt".equals(cookie.getName())) {  // Assuming the cookie storing JWT is named "jwt"
+                    return cookie.getValue();  // Return the token value
+                }
+            }
+        }
+        return null;  // Return null if no JWT is found in the cookies
     }
 }

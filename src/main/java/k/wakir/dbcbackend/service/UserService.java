@@ -1,5 +1,7 @@
 package k.wakir.dbcbackend.service;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import k.wakir.dbcbackend.model.entity.User;
 import k.wakir.dbcbackend.repository.UserRepository;
 import k.wakir.dbcbackend.security.jwt.JwtService;
@@ -50,8 +52,21 @@ public class UserService {
     }
 
     public User loadUserFromToken(String token) {
-        return this.userRepository.findByUsername(this.jwtService.extractUsername(token))
+        String username = "";
+        try {
+            username = this.jwtService.extractUsername(token);
+        } catch (Exception exception) {
+            return null;
+        }
+        return this.userRepository.findByUsername(username)
                 .orElseThrow(() ->  new RuntimeException("No user found"));
+    }
+
+    public void logoutUser(HttpServletResponse response) {
+        Cookie cookie = new Cookie("authToken", null);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 
 }
